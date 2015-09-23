@@ -1,0 +1,16 @@
+<%= form_tag custom_execute_report_path(@report), :method=>'post'  do |f| %>
+    <% error = false %>
+    <% @cvs.each do |cv|%>
+      <%= cv %>
+      <% possible_selections =  CustomVariable.find_by_name(cv) %>
+      <% if possible_selections %>
+      <p><%= select_tag cv, options_for_select(possible_selections.result), :multiple => true, :style => "height: 400px"  %></p>
+      <% elsif cv == 'current_user'  %>
+            variable used. <br><br>
+      <% else %>
+      <% error = true %>
+      Error: Custom Variable not set
+      <% end %>
+    <% end %>
+<p><%= submit_tag 'Submit' if !error %></p>
+<% end %>

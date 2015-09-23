@@ -1,0 +1,3 @@
+[submodule "queries"]
+	path = queries
+	url = git@github.com:ibariens/queries.git

@@ -1,0 +1,11 @@
+<% if @reports.count > 0 %>
+    <table border="1" cellpadding="5">
+          <%= render "reports/index/table_head" %>
+      <% @reports.each do |report| %>
+          <%= render "reports/index/item", :report => report %>
+      <% end %>
+<% else %>
+    <p> No queries to download</p>
+<% end %>
+    </table>
+    <br><br>

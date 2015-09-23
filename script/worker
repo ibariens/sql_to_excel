@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# This is a very easy script that uses RVM to start a worker, (next to Apache passenger)
+# in Ubuntu 12.04 Server.  The script should start automatically when the system starts,
+# Or use: sudo service reporter-worker start  (stop / restart)
+# The script is started by creating a file: /etc/init/reporter-worker.conf  with:
+
+# description "Start worker for Reporter"
+# start on runlevel [2345]
+# stop on runlevel [016]
+# respawn
+# exec su -c "/var/www/reporter/script/worker" ibariens >> /var/www/reporter/log/resque.log 2>&1
+
+# make sure you're enable execute with chmod!
+
+
+# Load RVM into the shell
+source "$HOME/.rvm/scripts/rvm"
+cd /var/www/reporter
+
+# Start the resque workers
+bundle exec rake environment resque:work QUEUE=*
+

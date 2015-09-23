@@ -1,0 +1,78 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <% @groups.each do |group| %>
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="heading_<%="#{group.name}"%>">
+        <h4 class="panel-title">
+          <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse_<%="#{group.name}"%>" aria-expanded="false" aria-controls="collapse_<%="#{group.name}"%>">
+            Group: <%= "#{group.name} (#{@reports.joins(:groups).where("groups_reports.group_id = ?", group.id).count})" %>
+          </a>
+        </h4>
+      </div>
+      <div id="collapse_<%="#{group.name}"%>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_<%="#{group.name}"%>">
+        <div class="panel-body">
+          <table border="1" cellpadding="5" width="100%">
+            <%= render "reports/index/table_head" %>
+              <% if @reports.first %>
+                <% @reports.joins(:groups).where("groups_reports.group_id = ?", group.id).each do |report| %>
+                <%= render "reports/index/item", :report => report %>
+              <% end %>
+           <% end %>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+
+
+<% if @reports_without_group_with_owner %>
+    <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="heading_no_group_with_owner">
+            <h4 class="panel-title">
+              <a class="collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapse_no_group_with_owner" aria-expanded="false" aria-controls="collapse_no_group_with_owner">
+                Reports without group(s) bit with owner(s) (<%= @reports_without_group_with_owner.count %>)
+              </a>
+            </h4>
+          </div>
+          <div id="collapse_no_group_with_owner" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_no_group_with_owner">
+            <div class="panel-body">
+              <table border="1" cellpadding="5" width="100%">
+                <%= render "reports/index/table_head" %>
+                <% @reports_without_group_with_owner.each do |report| %>
+                    <%= render "reports/index/item", :report => report %>
+                <% end %>
+              </table>
+            </div>
+          </div>
+        </div>
+    </div>
+<% end %>
+
+
+<% if @reports_without_group_without_owner %>
+    <div class="panel-group" id="accordion3" role="tablist" aria-multiselectable="true">
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading_no_group_without_owner">
+          <h4 class="panel-title">
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_no_group_without_owner" aria-expanded="false" aria-controls="collapse_no_group_with_owner">
+             Unassigned reports (<%= @reports_without_group_without_owner.count %>)
+            </a>
+          </h4>
+        </div>
+        <div id="collapse_no_group_without_owner" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_no_group_without_owner">
+          <div class="panel-body">
+            <table border="1" cellpadding="5" width="100%">
+              <%= render "reports/index/table_head" %>
+              <% @reports_without_group_without_owner.each do |report| %>
+                  <%= render "reports/index/item", :report => report %>
+              <% end %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+<% end %>
+
+<br><br>

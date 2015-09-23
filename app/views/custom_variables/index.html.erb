@@ -1,0 +1,40 @@
+<h1>Custom Variables Overview (Advanced Users only)</h1>
+
+
+ <% if @cvs.count > 0 %>
+    <table border="1" cellpadding="5">
+      <tr>
+        <th>Title</th>
+        <th>Result</th>
+        <% if is_admin? %>
+        <th>Edit</th>
+        <th>Destroy</th>
+        <% end %>
+      </tr>
+
+      <tr>
+        <td>current_user</td>
+        <td><%= @current_user.id %></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <% @cvs.each do |cv| %>
+          <tr>
+            <td><%= cv.name %></td>
+            <td><%= cv.result.first ? cv.result.first : "Query not working"  %></td>
+            <% if is_admin? %>
+            <td><%= link_to 'Edit', edit_custom_variable_path(cv), :method => :get %></td>
+            <td><%= link_to 'Destroy', cv, data: { confirm: 'Are you sure?' }, :method => :DELETE %></td>
+            <% end %>
+          </tr>
+      <% end %>
+   <% else %>
+  <p> No custom variables set</p>
+  <% end %>
+</table>
+<br><br>
+
+<% if is_admin? %>
+<%= link_to('new custom variable', :action => 'new') %>
+<% end %>

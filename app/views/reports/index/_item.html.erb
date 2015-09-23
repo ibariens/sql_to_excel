@@ -1,0 +1,17 @@
+<tr>
+  <td><%= report.name %></td>
+  <td><%= report.groups.all.map(&:name).join(", ")%></td>
+  <td><%= report.get_additional_owners.join(", ") %> </td>
+  <td><%= report.last_file_for_user(@current_user.id).updated_at %></td>
+  <td><%= report.execution_time.round(2) if report.execution_time %></td>
+  <% if report.last_file_for_user(@current_user.id).updated_at %>
+      <td><%= link_to 'Download', download_report_path(report), :method => :get %></td>
+  <% else %>
+      <td>Execute first</td>
+  <% end %>
+  <td><%= link_to 'Execute', execute_report_path(report), :method => :get %></td>
+  <% if is_admin? %>
+      <td><%= link_to 'Edit', edit_report_path(report), :method => :get %></td>
+      <td><%= link_to 'Clear Owners', report, data: { confirm: 'Are you sure?' }, :method => :delete %></td>
+  <% end %>
+</tr>

@@ -1,0 +1,17 @@
+<%= form_for @report, url: report_path(@report) do |f| %>
+    <p>
+      <%= f.select :groups, options_for_select(Report.possible_groups, @report.selected_groups), {}, :multiple => true %>
+    </p>
+    <p>
+      <%= f.select :users, options_for_select(Report.possible_owners, @report.selected_owners), {}, :multiple => true, :style => "height: 400px" %>
+    </p>
+    <p>
+      <%= f.submit %>
+    </p>
+<% end %>
+
+<hr>
+
+<p><strong>Report Name: </strong><%= @report.name %></p>
+<p><strong>File Name: </strong><%= @report.file_name %></p>
+<p><strong>Stored SQL: </strong><%= @report.stored_sql %></p>
